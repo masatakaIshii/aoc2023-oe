@@ -1,47 +1,34 @@
 package com.aoc.day7.core.model;
 
-import java.util.Objects;
+import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-public final class CardsHand {
-    private final long order;
-    private final String cards;
-    private final long bid;
+public record CardsHand(long order, String cards, long bid) {
 
-    public CardsHand(long order, String cards, long bid) {
-        this.order = order;
-        this.cards = cards;
-        this.bid = bid;
+    public long getScore() {
+        String[] splitStrCards = cards.split("");
+        return Long.parseLong(STR."\{getMaxOccurrence(splitStrCards)}\{getScoreOfCards(splitStrCards)}");
     }
 
-
-    public long getOrder() {
-        return order;
+    private Long getMaxOccurrence(String[] splitStrCards) {
+        return Arrays.stream(splitStrCards).collect(Collectors.groupingBy(str -> str, Collectors.counting()))
+                .entrySet().stream()
+                .max((entry1, entry2) -> Math.toIntExact(entry1.getValue() - entry2.getValue()))
+                .map(Map.Entry::getValue)
+                .orElseThrow();
     }
 
-    public String getCards() {
-        return cards;
+    private String getScoreOfCards(String[] splitStrCards) {
+        DecimalFormat decimalFormat = new DecimalFormat("#00");
+        return Arrays.stream(splitStrCards).mapToLong(oneChar -> switch (oneChar) {
+            case "A" -> 14L;
+            case "K" -> 13L;
+            case "Q" -> 12L;
+            case "J" -> 11L;
+            case "T" -> 10L;
+            default -> Long.parseLong(oneChar);
+        }).mapToObj(decimalFormat::format).collect(Collectors.joining());
     }
-
-    public long getBid() {
-        return bid;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CardsHand cardsHand = (CardsHand) o;
-        return order == cardsHand.order;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(order);
-    }
-
-    @Override
-    public String toString() {
-        return STR."CardsHand[order=\{order}, cards=\{cards}, bid=\{bid}\{']'}";
-    }
-
 }

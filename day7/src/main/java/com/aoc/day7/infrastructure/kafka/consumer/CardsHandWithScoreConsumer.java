@@ -1,0 +1,23 @@
+package com.aoc.day7.infrastructure.kafka.consumer;
+
+import com.aoc.day7.core.model.CardsHandWithScore;
+import com.aoc.day7.core.usecase.InsertCardsHandWithScore;
+import com.aoc.day7.infrastructure.kafka.model.CardsHandWithScoreEvent;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CardsHandWithScoreConsumer {
+    private final InsertCardsHandWithScore insertCardsHandWithScore;
+
+    public CardsHandWithScoreConsumer(InsertCardsHandWithScore insertCardsHandWithScore) {
+        this.insertCardsHandWithScore = insertCardsHandWithScore;
+    }
+
+    @KafkaListener(topics = "${topic.cards-with-score-hand}")
+    void consume(ConsumerRecord<String, CardsHandWithScoreEvent> consumerRecord) {
+        CardsHandWithScoreEvent value = consumerRecord.value();
+        insertCardsHandWithScore.execute(new CardsHandWithScore(value.getOrder(), value.getCards().toString(), value.getBid(), value.getScore()));
+    }
+}

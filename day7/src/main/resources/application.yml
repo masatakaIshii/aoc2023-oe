@@ -1,5 +1,6 @@
 topic:
-  name: cards-hand
+  cards-hand: cardsHand
+  cards-with-score-hand: cardsWithScoreHand
 
 camel:
   cards:

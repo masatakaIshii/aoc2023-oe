@@ -13,26 +13,26 @@ import org.apache.avro.message.BinaryMessageDecoder;
 import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
-public class CardsHandSchemaRegistry extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 79583459478980026L;
+public class CardsHandEvent extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
+  private static final long serialVersionUID = -6620673850031821273L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"CardsHandSchemaRegistry\",\"namespace\":\"com.aoc.day7.infrastructure.kafka.model\",\"fields\":[{\"name\":\"order\",\"type\":\"long\"},{\"name\":\"cards\",\"type\":\"string\"},{\"name\":\"bid\",\"type\":\"long\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"CardsHandEvent\",\"namespace\":\"com.aoc.day7.infrastructure.kafka.model\",\"fields\":[{\"name\":\"order\",\"type\":\"long\"},{\"name\":\"cards\",\"type\":\"string\"},{\"name\":\"bid\",\"type\":\"long\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
 
-  private static final BinaryMessageEncoder<CardsHandSchemaRegistry> ENCODER =
+  private static final BinaryMessageEncoder<CardsHandEvent> ENCODER =
       new BinaryMessageEncoder<>(MODEL$, SCHEMA$);
 
-  private static final BinaryMessageDecoder<CardsHandSchemaRegistry> DECODER =
+  private static final BinaryMessageDecoder<CardsHandEvent> DECODER =
       new BinaryMessageDecoder<>(MODEL$, SCHEMA$);
 
   /**
    * Return the BinaryMessageEncoder instance used by this class.
    * @return the message encoder used by this class
    */
-  public static BinaryMessageEncoder<CardsHandSchemaRegistry> getEncoder() {
+  public static BinaryMessageEncoder<CardsHandEvent> getEncoder() {
     return ENCODER;
   }
 
@@ -40,7 +40,7 @@ public class CardsHandSchemaRegistry extends org.apache.avro.specific.SpecificRe
    * Return the BinaryMessageDecoder instance used by this class.
    * @return the message decoder used by this class
    */
-  public static BinaryMessageDecoder<CardsHandSchemaRegistry> getDecoder() {
+  public static BinaryMessageDecoder<CardsHandEvent> getDecoder() {
     return DECODER;
   }
 
@@ -49,12 +49,12 @@ public class CardsHandSchemaRegistry extends org.apache.avro.specific.SpecificRe
    * @param resolver a {@link SchemaStore} used to find schemas by fingerprint
    * @return a BinaryMessageDecoder instance for this class backed by the given SchemaStore
    */
-  public static BinaryMessageDecoder<CardsHandSchemaRegistry> createDecoder(SchemaStore resolver) {
+  public static BinaryMessageDecoder<CardsHandEvent> createDecoder(SchemaStore resolver) {
     return new BinaryMessageDecoder<>(MODEL$, SCHEMA$, resolver);
   }
 
   /**
-   * Serializes this CardsHandSchemaRegistry to a ByteBuffer.
+   * Serializes this CardsHandEvent to a ByteBuffer.
    * @return a buffer holding the serialized data for this instance
    * @throws java.io.IOException if this instance could not be serialized
    */
@@ -63,12 +63,12 @@ public class CardsHandSchemaRegistry extends org.apache.avro.specific.SpecificRe
   }
 
   /**
-   * Deserializes a CardsHandSchemaRegistry from a ByteBuffer.
+   * Deserializes a CardsHandEvent from a ByteBuffer.
    * @param b a byte buffer holding serialized data for an instance of this class
-   * @return a CardsHandSchemaRegistry instance decoded from the given buffer
+   * @return a CardsHandEvent instance decoded from the given buffer
    * @throws java.io.IOException if the given bytes could not be deserialized into an instance of this class
    */
-  public static CardsHandSchemaRegistry fromByteBuffer(
+  public static CardsHandEvent fromByteBuffer(
       java.nio.ByteBuffer b) throws java.io.IOException {
     return DECODER.decode(b);
   }
@@ -82,7 +82,7 @@ public class CardsHandSchemaRegistry extends org.apache.avro.specific.SpecificRe
    * to their default values from the schema.  If that is desired then
    * one should use <code>newBuilder()</code>.
    */
-  public CardsHandSchemaRegistry() {}
+  public CardsHandEvent() {}
 
   /**
    * All-args constructor.
@@ -90,7 +90,7 @@ public class CardsHandSchemaRegistry extends org.apache.avro.specific.SpecificRe
    * @param cards The new value for cards
    * @param bid The new value for bid
    */
-  public CardsHandSchemaRegistry(java.lang.Long order, java.lang.CharSequence cards, java.lang.Long bid) {
+  public CardsHandEvent(java.lang.Long order, java.lang.CharSequence cards, java.lang.Long bid) {
     this.order = order;
     this.cards = cards;
     this.bid = bid;
@@ -177,45 +177,45 @@ public class CardsHandSchemaRegistry extends org.apache.avro.specific.SpecificRe
   }
 
   /**
-   * Creates a new CardsHandSchemaRegistry RecordBuilder.
-   * @return A new CardsHandSchemaRegistry RecordBuilder
+   * Creates a new CardsHandEvent RecordBuilder.
+   * @return A new CardsHandEvent RecordBuilder
    */
-  public static com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry.Builder newBuilder() {
-    return new com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry.Builder();
+  public static com.aoc.day7.infrastructure.kafka.model.CardsHandEvent.Builder newBuilder() {
+    return new com.aoc.day7.infrastructure.kafka.model.CardsHandEvent.Builder();
   }
 
   /**
-   * Creates a new CardsHandSchemaRegistry RecordBuilder by copying an existing Builder.
+   * Creates a new CardsHandEvent RecordBuilder by copying an existing Builder.
    * @param other The existing builder to copy.
-   * @return A new CardsHandSchemaRegistry RecordBuilder
+   * @return A new CardsHandEvent RecordBuilder
    */
-  public static com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry.Builder newBuilder(com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry.Builder other) {
+  public static com.aoc.day7.infrastructure.kafka.model.CardsHandEvent.Builder newBuilder(com.aoc.day7.infrastructure.kafka.model.CardsHandEvent.Builder other) {
     if (other == null) {
-      return new com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry.Builder();
+      return new com.aoc.day7.infrastructure.kafka.model.CardsHandEvent.Builder();
     } else {
-      return new com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry.Builder(other);
+      return new com.aoc.day7.infrastructure.kafka.model.CardsHandEvent.Builder(other);
     }
   }
 
   /**
-   * Creates a new CardsHandSchemaRegistry RecordBuilder by copying an existing CardsHandSchemaRegistry instance.
+   * Creates a new CardsHandEvent RecordBuilder by copying an existing CardsHandEvent instance.
    * @param other The existing instance to copy.
-   * @return A new CardsHandSchemaRegistry RecordBuilder
+   * @return A new CardsHandEvent RecordBuilder
    */
-  public static com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry.Builder newBuilder(com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry other) {
+  public static com.aoc.day7.infrastructure.kafka.model.CardsHandEvent.Builder newBuilder(com.aoc.day7.infrastructure.kafka.model.CardsHandEvent other) {
     if (other == null) {
-      return new com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry.Builder();
+      return new com.aoc.day7.infrastructure.kafka.model.CardsHandEvent.Builder();
     } else {
-      return new com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry.Builder(other);
+      return new com.aoc.day7.infrastructure.kafka.model.CardsHandEvent.Builder(other);
     }
   }
 
   /**
-   * RecordBuilder for CardsHandSchemaRegistry instances.
+   * RecordBuilder for CardsHandEvent instances.
    */
   @org.apache.avro.specific.AvroGenerated
-  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<CardsHandSchemaRegistry>
-    implements org.apache.avro.data.RecordBuilder<CardsHandSchemaRegistry> {
+  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<CardsHandEvent>
+    implements org.apache.avro.data.RecordBuilder<CardsHandEvent> {
 
     private long order;
     private java.lang.CharSequence cards;
@@ -230,7 +230,7 @@ public class CardsHandSchemaRegistry extends org.apache.avro.specific.SpecificRe
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry.Builder other) {
+    private Builder(com.aoc.day7.infrastructure.kafka.model.CardsHandEvent.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.order)) {
         this.order = data().deepCopy(fields()[0].schema(), other.order);
@@ -247,10 +247,10 @@ public class CardsHandSchemaRegistry extends org.apache.avro.specific.SpecificRe
     }
 
     /**
-     * Creates a Builder by copying an existing CardsHandSchemaRegistry instance
+     * Creates a Builder by copying an existing CardsHandEvent instance
      * @param other The existing instance to copy.
      */
-    private Builder(com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry other) {
+    private Builder(com.aoc.day7.infrastructure.kafka.model.CardsHandEvent other) {
       super(SCHEMA$, MODEL$);
       if (isValidValue(fields()[0], other.order)) {
         this.order = data().deepCopy(fields()[0].schema(), other.order);
@@ -280,7 +280,7 @@ public class CardsHandSchemaRegistry extends org.apache.avro.specific.SpecificRe
       * @param value The value of 'order'.
       * @return This builder.
       */
-    public com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry.Builder setOrder(long value) {
+    public com.aoc.day7.infrastructure.kafka.model.CardsHandEvent.Builder setOrder(long value) {
       validate(fields()[0], value);
       this.order = value;
       fieldSetFlags()[0] = true;
@@ -300,7 +300,7 @@ public class CardsHandSchemaRegistry extends org.apache.avro.specific.SpecificRe
       * Clears the value of the 'order' field.
       * @return This builder.
       */
-    public com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry.Builder clearOrder() {
+    public com.aoc.day7.infrastructure.kafka.model.CardsHandEvent.Builder clearOrder() {
       fieldSetFlags()[0] = false;
       return this;
     }
@@ -319,7 +319,7 @@ public class CardsHandSchemaRegistry extends org.apache.avro.specific.SpecificRe
       * @param value The value of 'cards'.
       * @return This builder.
       */
-    public com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry.Builder setCards(java.lang.CharSequence value) {
+    public com.aoc.day7.infrastructure.kafka.model.CardsHandEvent.Builder setCards(java.lang.CharSequence value) {
       validate(fields()[1], value);
       this.cards = value;
       fieldSetFlags()[1] = true;
@@ -339,7 +339,7 @@ public class CardsHandSchemaRegistry extends org.apache.avro.specific.SpecificRe
       * Clears the value of the 'cards' field.
       * @return This builder.
       */
-    public com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry.Builder clearCards() {
+    public com.aoc.day7.infrastructure.kafka.model.CardsHandEvent.Builder clearCards() {
       cards = null;
       fieldSetFlags()[1] = false;
       return this;
@@ -359,7 +359,7 @@ public class CardsHandSchemaRegistry extends org.apache.avro.specific.SpecificRe
       * @param value The value of 'bid'.
       * @return This builder.
       */
-    public com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry.Builder setBid(long value) {
+    public com.aoc.day7.infrastructure.kafka.model.CardsHandEvent.Builder setBid(long value) {
       validate(fields()[2], value);
       this.bid = value;
       fieldSetFlags()[2] = true;
@@ -379,16 +379,16 @@ public class CardsHandSchemaRegistry extends org.apache.avro.specific.SpecificRe
       * Clears the value of the 'bid' field.
       * @return This builder.
       */
-    public com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry.Builder clearBid() {
+    public com.aoc.day7.infrastructure.kafka.model.CardsHandEvent.Builder clearBid() {
       fieldSetFlags()[2] = false;
       return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public CardsHandSchemaRegistry build() {
+    public CardsHandEvent build() {
       try {
-        CardsHandSchemaRegistry record = new CardsHandSchemaRegistry();
+        CardsHandEvent record = new CardsHandEvent();
         record.order = fieldSetFlags()[0] ? this.order : (java.lang.Long) defaultValue(fields()[0]);
         record.cards = fieldSetFlags()[1] ? this.cards : (java.lang.CharSequence) defaultValue(fields()[1]);
         record.bid = fieldSetFlags()[2] ? this.bid : (java.lang.Long) defaultValue(fields()[2]);
@@ -402,8 +402,8 @@ public class CardsHandSchemaRegistry extends org.apache.avro.specific.SpecificRe
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumWriter<CardsHandSchemaRegistry>
-    WRITER$ = (org.apache.avro.io.DatumWriter<CardsHandSchemaRegistry>)MODEL$.createDatumWriter(SCHEMA$);
+  private static final org.apache.avro.io.DatumWriter<CardsHandEvent>
+    WRITER$ = (org.apache.avro.io.DatumWriter<CardsHandEvent>)MODEL$.createDatumWriter(SCHEMA$);
 
   @Override public void writeExternal(java.io.ObjectOutput out)
     throws java.io.IOException {
@@ -411,8 +411,8 @@ public class CardsHandSchemaRegistry extends org.apache.avro.specific.SpecificRe
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumReader<CardsHandSchemaRegistry>
-    READER$ = (org.apache.avro.io.DatumReader<CardsHandSchemaRegistry>)MODEL$.createDatumReader(SCHEMA$);
+  private static final org.apache.avro.io.DatumReader<CardsHandEvent>
+    READER$ = (org.apache.avro.io.DatumReader<CardsHandEvent>)MODEL$.createDatumReader(SCHEMA$);
 
   @Override public void readExternal(java.io.ObjectInput in)
     throws java.io.IOException {

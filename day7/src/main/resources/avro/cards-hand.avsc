@@ -1,7 +1,7 @@
 {
   "namespace": "com.aoc.day7.infrastructure.kafka.model",
   "type": "record",
-  "name": "CardsHandSchemaRegistry",
+  "name": "CardsHandEvent",
   "fields": [
     {
       "name": "order",

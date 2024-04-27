@@ -1,17 +1,16 @@
 package com.aoc.day7;
 
-import com.aoc.day7.core.model.CardsHand;
 import com.aoc.day7.infrastructure.controller.CamelCardsController;
-import com.aoc.day7.infrastructure.kafka.producer.CamelCardsProducer;
 import com.aoc.day7.infrastructure.logger.CustomLogger;
 import com.aoc.day7.infrastructure.logger.CustomLoggerFactory;
-import com.aoc.day7.infrastructure.mongo.MongoDBCardsHand;
+import com.aoc.day7.infrastructure.mongo.MongoDBCardsHandWithScore;
 import com.aoc.day7.testcontainers.SchemaRegistryContainer;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -35,7 +34,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.StreamSupport;
 
-import static com.aoc.day7.infrastructure.mongo.MongoConstants.CARDS_HAND_COLLECTION;
+import static com.aoc.day7.infrastructure.mongo.MongoConstants.CARDS_HAND_WITH_SCORE_COLLECTION;
 import static com.aoc.day7.infrastructure.mongo.MongoConstants.DB_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -78,9 +77,6 @@ class Day7ApplicationTests {
         registry.add("mongodb.uri", () -> MONGO_DB.getReplicaSetUrl());
     }
 
-    @Autowired
-    CamelCardsProducer camelCardsProducer;
-
     @Captor
     ArgumentCaptor<String> messageCaptor;
 
@@ -95,26 +91,13 @@ class Day7ApplicationTests {
         Mockito.when(customLoggerFactory.createLogger(any())).thenReturn(customLogger);
     }
 
-
-    // TODO 1 : save in mongo collection the cards hand
-    // TODO 2 : write appropriate acceptance test
-    @Test
-    void testSendEventsToTopic() {
-        // GIVEN
-        CardsHand cardsHand = new CardsHand(1, "1236zef", 120);
-
-        // WHEN
-        camelCardsProducer.send(cardsHand);
-        await().pollInterval(Duration.ofSeconds(3)).atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {
-            Mockito.verify(customLogger, Mockito.times(3)).info(messageCaptor.capture());
-        });
-
-        // THEN
-        List<String> allValues = messageCaptor.getAllValues();
-        String expect = STR."cards hand data send :{\"order\": \{cardsHand.getOrder()}, \"cards\": \"\{cardsHand.getCards()}\", \"bid\": \{cardsHand.getBid()}}";
-        assertThat(allValues).anyMatch(value -> value.equals(expect));
+    @BeforeEach
+    void beforeEach() {
+        MongoCollection<MongoDBCardsHandWithScore> mongoDbCardsHandWithScoreCollection = getMongoDbCardsHandWithScoreCollection();
+        mongoDbCardsHandWithScoreCollection.drop();
     }
 
+    // TODO 1 : write appropriate acceptance test
     @Test
     void when_camel_cards_send_and_consume_should_save_in_collection() {
         // GIVEN
@@ -124,16 +107,16 @@ class Day7ApplicationTests {
         });
 
         // THEN
-        List<MongoDBCardsHand> expected = List.of(
-                new MongoDBCardsHand(1L, "32T3K", 765L),
-                new MongoDBCardsHand(2L, "T55J5", 684L),
-                new MongoDBCardsHand(3L, "KK677", 28L),
-                new MongoDBCardsHand(4L, "KTJJT", 220L),
-                new MongoDBCardsHand(5L, "QQQJA", 483L)
+        List<MongoDBCardsHandWithScore> expected = List.of(
+                new MongoDBCardsHandWithScore(1L, "32T3K", 765L, 20302100313L),
+                new MongoDBCardsHandWithScore(2L, "T55J5", 684L, 31005051105L),
+                new MongoDBCardsHandWithScore(3L, "KK677", 28L, 21313060707L),
+                new MongoDBCardsHandWithScore(4L, "KTJJT", 220L, 21310111110L),
+                new MongoDBCardsHandWithScore(5L, "QQQJA", 483L, 31212121114L)
         );
 
-        MongoCollection<MongoDBCardsHand> mongoDBCardsHandMongoCollection = getMongoDBCardsHandMongoCollection();
-        List<MongoDBCardsHand> mongoDBCardsHands = StreamSupport.stream(mongoDBCardsHandMongoCollection.find().spliterator(), false)
+        MongoCollection<MongoDBCardsHandWithScore> mongoDBCardsHandMongoCollection = getMongoDbCardsHandWithScoreCollection();
+        List<MongoDBCardsHandWithScore> mongoDBCardsHands = StreamSupport.stream(mongoDBCardsHandMongoCollection.find().spliterator(), false)
                 .toList();
         assertThat(mongoDBCardsHands).hasSize(5);
         assertThat(mongoDBCardsHands).usingRecursiveComparison()
@@ -141,9 +124,24 @@ class Day7ApplicationTests {
                 .isEqualTo(expected);
     }
 
+    @Test
+    void acceptance_test() {
+        // GIVEN
+        // WHEN
+        camelCardsController.start();
+        await().pollInterval(Duration.ofSeconds(3)).atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {
+            Mockito.verify(customLogger, Mockito.atLeastOnce()).info(messageCaptor.capture());
+        });
+
+        // THEN
+        List<String> allValues = messageCaptor.getAllValues();
+        String expect = "result is 6440";
+        assertThat(allValues).anyMatch(value -> value.equals(expect));
+    }
+
     @NotNull
-    private MongoCollection<MongoDBCardsHand> getMongoDBCardsHandMongoCollection() {
+    private MongoCollection<MongoDBCardsHandWithScore> getMongoDbCardsHandWithScoreCollection() {
         MongoDatabase camelCards = mongoClient.getDatabase(DB_NAME);
-        return camelCards.getCollection(CARDS_HAND_COLLECTION, MongoDBCardsHand.class);
+        return camelCards.getCollection(CARDS_HAND_WITH_SCORE_COLLECTION, MongoDBCardsHandWithScore.class);
     }
 }
