@@ -1,4 +1,4 @@
-package com.aoc.day7.core;
+package com.aoc.day7.core.model;
 
 import java.util.Objects;
 

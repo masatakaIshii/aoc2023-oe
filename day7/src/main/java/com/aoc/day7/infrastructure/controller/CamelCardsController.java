@@ -1,6 +1,6 @@
 package com.aoc.day7.infrastructure.controller;
 
-import com.aoc.day7.core.CardsHand;
+import com.aoc.day7.core.model.CardsHand;
 import com.aoc.day7.infrastructure.kafka.producer.CamelCardsProducer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,14 +26,14 @@ public class CamelCardsController {
             String line = br.readLine();
             int order = 1;
             while (line != null) {
-                line = br.readLine();
                 String[] split = line.split(" ");
                 CardsHand cardsHand = new CardsHand(order, split[0], Long.parseLong(split[1]));
                 camelCardsProducer.send(cardsHand);
                 order++;
+                line = br.readLine();
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 }

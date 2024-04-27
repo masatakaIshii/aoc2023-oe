@@ -1,6 +1,6 @@
 package com.aoc.day7.infrastructure.kafka.producer;
 
-import com.aoc.day7.core.CardsHand;
+import com.aoc.day7.core.model.CardsHand;
 import com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry;
 import com.aoc.day7.infrastructure.logger.CustomLogger;
 import com.aoc.day7.infrastructure.logger.CustomLoggerFactory;

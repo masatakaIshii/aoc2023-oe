@@ -1,5 +1,7 @@
 package com.aoc.day7.infrastructure.kafka.consumer;
 
+import com.aoc.day7.core.model.CardsHand;
+import com.aoc.day7.core.usecase.InsertCardsHand;
 import com.aoc.day7.infrastructure.kafka.model.CardsHandSchemaRegistry;
 import com.aoc.day7.infrastructure.logger.CustomLogger;
 import com.aoc.day7.infrastructure.logger.CustomLoggerFactory;
@@ -11,9 +13,11 @@ import org.springframework.stereotype.Service;
 public class CamelCardsConsumer {
 
     private final CustomLogger log;
+    private final InsertCardsHand insertCardsHand;
 
-    public CamelCardsConsumer(CustomLoggerFactory customLoggerFactory) {
+    public CamelCardsConsumer(CustomLoggerFactory customLoggerFactory, InsertCardsHand insertCardsHand) {
         log = customLoggerFactory.createLogger(CamelCardsConsumer.class);
+        this.insertCardsHand = insertCardsHand;
     }
 
     @KafkaListener(topics = "${topic.name}")
@@ -22,6 +26,9 @@ public class CamelCardsConsumer {
         CardsHandSchemaRegistry cardsHandSchemaRegistry = consumerRecord.value();
 
         log.info(STR."Avro message received fro key \{key} value : \{cardsHandSchemaRegistry}");
+
+        CardsHand cardsHand = new CardsHand(cardsHandSchemaRegistry.getOrder(), cardsHandSchemaRegistry.getCards().toString(), cardsHandSchemaRegistry.getBid());
+        insertCardsHand.execute(cardsHand);
     }
 
 }
