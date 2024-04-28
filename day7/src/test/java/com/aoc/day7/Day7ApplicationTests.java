@@ -80,6 +80,21 @@ class Day7ApplicationTests extends TestContainersHelper {
         });
     }
 
+    @Test
+    void acceptance_test2() {
+        // GIVEN
+        // WHEN
+        camelCardsController.startWithJokers();
+        await().pollInterval(Duration.ofSeconds(4)).atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {
+            Mockito.verify(customLogger, Mockito.atLeastOnce()).info(messageCaptor.capture());
+
+            // THEN
+            List<String> allValues = messageCaptor.getAllValues();
+            String expect = "result is 5905";
+            assertThat(allValues).anyMatch(value -> value.equals(expect));
+        });
+    }
+
     @NotNull
     private MongoCollection<CardsHandWithRank> getMongoDbCardsHandWithRankCollection() {
         MongoDatabase camelCards = mongoClient.getDatabase(DB_NAME);
