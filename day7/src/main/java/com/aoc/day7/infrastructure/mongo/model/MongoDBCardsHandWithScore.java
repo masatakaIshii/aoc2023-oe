@@ -1,6 +1,9 @@
-package com.aoc.day7.infrastructure.mongo;
+package com.aoc.day7.infrastructure.mongo.model;
+
+import org.bson.types.ObjectId;
 
 public class MongoDBCardsHandWithScore {
+    private ObjectId id;
     private long order;
     private String cards;
     private long bid;
@@ -14,6 +17,14 @@ public class MongoDBCardsHandWithScore {
     }
 
     public MongoDBCardsHandWithScore() {
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 
     public long getOrder() {

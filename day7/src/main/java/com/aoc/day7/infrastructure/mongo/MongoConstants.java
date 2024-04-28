@@ -7,5 +7,5 @@ public class MongoConstants {
     }
 
     public static final String DB_NAME = "camelcards";
-    public static final String CARDS_HAND_WITH_SCORE_COLLECTION = "cards.hand.with.score";
+    public static final String CARDS_HAND_COLLECTION = "cards.hand";
 }

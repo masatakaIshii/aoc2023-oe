@@ -1,7 +1,8 @@
 package com.aoc.day7.infrastructure.controller;
 
-import com.aoc.day7.core.model.CardsHand;
-import com.aoc.day7.infrastructure.kafka.producer.CardsHandProducer;
+import com.aoc.day7.core.model.CardsHandWithScore;
+import com.aoc.day7.infrastructure.kafka.producer.CardsHandWithScoreProducer;
+import com.aoc.day7.infrastructure.kafka.producer.UpdateCardsHandRankProducer;
 import com.aoc.day7.infrastructure.logger.CustomLogger;
 import com.aoc.day7.infrastructure.logger.CustomLoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,15 +13,19 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import static com.aoc.day7.core.usecase.GetScoreByCards.getScore;
+
 @RestController
 public class CamelCardsController {
     private final CustomLogger log;
     @Value("${camel.cards.filepath}")
     String filePath;
-    private final CardsHandProducer cardsHandProducer;
+    private final CardsHandWithScoreProducer cardsHandWithScoreProducer;
+    private final UpdateCardsHandRankProducer updateCardsHandRankProducer;
 
-    public CamelCardsController(CardsHandProducer cardsHandProducer, CustomLoggerFactory customLoggerFactory) {
-        this.cardsHandProducer = cardsHandProducer;
+    public CamelCardsController(CardsHandWithScoreProducer cardsHandWithScoreProducer, UpdateCardsHandRankProducer updateCardsHandRankProducer, CustomLoggerFactory customLoggerFactory) {
+        this.cardsHandWithScoreProducer = cardsHandWithScoreProducer;
+        this.updateCardsHandRankProducer = updateCardsHandRankProducer;
         log = customLoggerFactory.createLogger(CamelCardsController.class);
     }
 
@@ -32,11 +37,11 @@ public class CamelCardsController {
             log.info("File read and card hand event start");
             while (line != null) {
                 String[] split = line.split(" ");
-                CardsHand cardsHand = new CardsHand(order++, split[0], Long.parseLong(split[1]));
-                cardsHandProducer.send(cardsHand);
+                cardsHandWithScoreProducer.send(new CardsHandWithScore(order++, split[0], Long.parseLong(split[1]), getScore(split[0])));
                 line = br.readLine();
             }
             log.info(STR."Number order :\{order - 1}");
+            updateCardsHandRankProducer.send(order - 1);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }

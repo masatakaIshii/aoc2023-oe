@@ -1,6 +1,7 @@
 topic:
   cards-hand: cardsHand
   cards-with-score-hand: cardsWithScoreHand
+  total-cards-hand: totalCardsHand
 
 camel:
   cards:
