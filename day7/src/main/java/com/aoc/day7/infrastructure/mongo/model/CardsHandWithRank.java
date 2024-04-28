@@ -2,21 +2,21 @@ package com.aoc.day7.infrastructure.mongo.model;
 
 import org.bson.types.ObjectId;
 
-public class MongoDBCardsHandWithRank {
+public class CardsHandWithRank {
     private ObjectId id;
     private long order;
     private String cards;
     private long bid;
     private Long rank;
 
-    public MongoDBCardsHandWithRank(long order, String cards, long bid, Long rank) {
+    public CardsHandWithRank(long order, String cards, long bid, Long rank) {
         this.order = order;
         this.cards = cards;
         this.bid = bid;
         this.rank = rank;
     }
 
-    public MongoDBCardsHandWithRank() {
+    public CardsHandWithRank() {
     }
 
     public ObjectId getId() {

@@ -1,4 +1,4 @@
-package com.aoc.day7.infrastructure.mongo;
+package com.aoc.day7.infrastructure.mongo.repository;
 
 public class MongoConstants {
 

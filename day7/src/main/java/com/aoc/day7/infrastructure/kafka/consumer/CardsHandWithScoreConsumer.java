@@ -1,23 +1,23 @@
 package com.aoc.day7.infrastructure.kafka.consumer;
 
-import com.aoc.day7.core.model.CardsHandWithScore;
-import com.aoc.day7.core.usecase.InsertCardsHand;
-import com.aoc.day7.infrastructure.kafka.model.CardsHandWithScoreEvent;
+import com.aoc.day7.infrastructure.mongo.repository.InsertCardsHandRepository;
+import com.aoc.day7.core.model.CardsHand;
+import com.aoc.day7.infrastructure.kafka.model.CardsHandEvent;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CardsHandWithScoreConsumer {
-    private final InsertCardsHand insertCardsHand;
+    private final InsertCardsHandRepository insertCardsHandRepository;
 
-    public CardsHandWithScoreConsumer(InsertCardsHand insertCardsHand) {
-        this.insertCardsHand = insertCardsHand;
+    public CardsHandWithScoreConsumer(InsertCardsHandRepository insertCardsHandRepository) {
+        this.insertCardsHandRepository = insertCardsHandRepository;
     }
 
-    @KafkaListener(topics = "${topic.cards-with-score-hand}")
-    void consume(ConsumerRecord<String, CardsHandWithScoreEvent> consumerRecord) {
-        CardsHandWithScoreEvent value = consumerRecord.value();
-        insertCardsHand.execute(new CardsHandWithScore(value.getOrder(), value.getCards().toString(), value.getBid(), value.getScore()));
+    @KafkaListener(topics = "${topic.cards-hand}")
+    void consume(ConsumerRecord<String, CardsHandEvent> consumerRecord) {
+        CardsHandEvent value = consumerRecord.value();
+        insertCardsHandRepository.insertOne(new CardsHand(value.getOrder(), value.getCards().toString(), value.getBid(), value.getScore()));
     }
 }

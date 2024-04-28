@@ -38,7 +38,7 @@ public class ZookeeperContainer extends GenericContainer<ZookeeperContainer> {
         return (String) TestcontainersConfiguration
                 .getInstance().getProperties().getOrDefault(
                         "zookeeper.container.image",
-                        "confluentinc/cp-zookeeper:" + confluentPlatformVersion
+                        STR."confluentinc/cp-zookeeper:\{confluentPlatformVersion}"
                 );
     }
 }

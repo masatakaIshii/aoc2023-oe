@@ -1,6 +1,6 @@
 package com.aoc.day7.infrastructure.controller;
 
-import com.aoc.day7.core.model.CardsHandWithScore;
+import com.aoc.day7.core.model.CardsHand;
 import com.aoc.day7.infrastructure.kafka.producer.CardsHandWithScoreProducer;
 import com.aoc.day7.infrastructure.kafka.producer.UpdateCardsHandRankProducer;
 import com.aoc.day7.infrastructure.logger.CustomLogger;
@@ -37,7 +37,7 @@ public class CamelCardsController {
             log.info("File read and card hand event start");
             while (line != null) {
                 String[] split = line.split(" ");
-                cardsHandWithScoreProducer.send(new CardsHandWithScore(order++, split[0], Long.parseLong(split[1]), getScore(split[0])));
+                cardsHandWithScoreProducer.send(new CardsHand(order++, split[0], Long.parseLong(split[1]), getScore(split[0])));
                 line = br.readLine();
             }
             log.info(STR."Number order :\{order - 1}");

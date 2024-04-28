@@ -14,6 +14,10 @@
     {
       "name": "bid",
       "type": "long"
+    },
+    {
+      "name": "score",
+      "type": "long"
     }
   ]
 }

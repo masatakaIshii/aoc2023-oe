@@ -1,10 +1,10 @@
 package com.aoc.day7.infrastructure.kafka.consumer;
 
-import com.aoc.day7.core.adapter.CountRepository;
+import com.aoc.day7.infrastructure.mongo.repository.CountRepository;
 import com.aoc.day7.infrastructure.logger.CustomLogger;
 import com.aoc.day7.infrastructure.logger.CustomLoggerFactory;
-import com.aoc.day7.infrastructure.mongo.GetTotalWinningRepository;
-import com.aoc.day7.infrastructure.mongo.SetRankInCardsHandRepository;
+import com.aoc.day7.infrastructure.mongo.repository.GetTotalWinningRepository;
+import com.aoc.day7.infrastructure.mongo.repository.SetRankInCardsHandRepository;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
 import org.springframework.retry.annotation.Backoff;
@@ -29,7 +29,7 @@ public class UpdateCardsHandRankConsumer {
 
     @RetryableTopic(attempts = "4", backoff = @Backoff(delay = 500, multiplier = 2, maxDelay = 10_000))
     @KafkaListener(topics = "${topic.total-cards-hand}")
-    public void consume(Integer total) throws InterruptedException {
+    public void consume(Integer total) {
         if (countRepository.count() < total) {
             logger.error("All cards hand are not insert in collection");
             throw new IllegalStateException();
@@ -42,7 +42,6 @@ public class UpdateCardsHandRankConsumer {
             setRankInCardsHandRepository.setRankInCardsHands(skip, limit);
             skip += limit;
         }
-        logger.info("start get total winnings");
 
         long totalWinnings = getTotalWinningRepository.getTotal();
         logger.info(STR."result is \{totalWinnings}");

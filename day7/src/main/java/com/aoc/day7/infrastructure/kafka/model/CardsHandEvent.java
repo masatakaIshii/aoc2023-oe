@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class CardsHandEvent extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -6620673850031821273L;
+  private static final long serialVersionUID = 766495251582490307L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"CardsHandEvent\",\"namespace\":\"com.aoc.day7.infrastructure.kafka.model\",\"fields\":[{\"name\":\"order\",\"type\":\"long\"},{\"name\":\"cards\",\"type\":\"string\"},{\"name\":\"bid\",\"type\":\"long\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"CardsHandEvent\",\"namespace\":\"com.aoc.day7.infrastructure.kafka.model\",\"fields\":[{\"name\":\"order\",\"type\":\"long\"},{\"name\":\"cards\",\"type\":\"string\"},{\"name\":\"bid\",\"type\":\"long\"},{\"name\":\"score\",\"type\":\"long\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -76,6 +76,7 @@ public class CardsHandEvent extends org.apache.avro.specific.SpecificRecordBase 
   private long order;
   private java.lang.CharSequence cards;
   private long bid;
+  private long score;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -89,11 +90,13 @@ public class CardsHandEvent extends org.apache.avro.specific.SpecificRecordBase 
    * @param order The new value for order
    * @param cards The new value for cards
    * @param bid The new value for bid
+   * @param score The new value for score
    */
-  public CardsHandEvent(java.lang.Long order, java.lang.CharSequence cards, java.lang.Long bid) {
+  public CardsHandEvent(java.lang.Long order, java.lang.CharSequence cards, java.lang.Long bid, java.lang.Long score) {
     this.order = order;
     this.cards = cards;
     this.bid = bid;
+    this.score = score;
   }
 
   @Override
@@ -109,6 +112,7 @@ public class CardsHandEvent extends org.apache.avro.specific.SpecificRecordBase 
     case 0: return order;
     case 1: return cards;
     case 2: return bid;
+    case 3: return score;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -121,6 +125,7 @@ public class CardsHandEvent extends org.apache.avro.specific.SpecificRecordBase 
     case 0: order = (java.lang.Long)value$; break;
     case 1: cards = (java.lang.CharSequence)value$; break;
     case 2: bid = (java.lang.Long)value$; break;
+    case 3: score = (java.lang.Long)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -177,6 +182,23 @@ public class CardsHandEvent extends org.apache.avro.specific.SpecificRecordBase 
   }
 
   /**
+   * Gets the value of the 'score' field.
+   * @return The value of the 'score' field.
+   */
+  public long getScore() {
+    return score;
+  }
+
+
+  /**
+   * Sets the value of the 'score' field.
+   * @param value the value to set.
+   */
+  public void setScore(long value) {
+    this.score = value;
+  }
+
+  /**
    * Creates a new CardsHandEvent RecordBuilder.
    * @return A new CardsHandEvent RecordBuilder
    */
@@ -220,6 +242,7 @@ public class CardsHandEvent extends org.apache.avro.specific.SpecificRecordBase 
     private long order;
     private java.lang.CharSequence cards;
     private long bid;
+    private long score;
 
     /** Creates a new Builder */
     private Builder() {
@@ -244,6 +267,10 @@ public class CardsHandEvent extends org.apache.avro.specific.SpecificRecordBase 
         this.bid = data().deepCopy(fields()[2].schema(), other.bid);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
+      if (isValidValue(fields()[3], other.score)) {
+        this.score = data().deepCopy(fields()[3].schema(), other.score);
+        fieldSetFlags()[3] = other.fieldSetFlags()[3];
+      }
     }
 
     /**
@@ -263,6 +290,10 @@ public class CardsHandEvent extends org.apache.avro.specific.SpecificRecordBase 
       if (isValidValue(fields()[2], other.bid)) {
         this.bid = data().deepCopy(fields()[2].schema(), other.bid);
         fieldSetFlags()[2] = true;
+      }
+      if (isValidValue(fields()[3], other.score)) {
+        this.score = data().deepCopy(fields()[3].schema(), other.score);
+        fieldSetFlags()[3] = true;
       }
     }
 
@@ -384,6 +415,45 @@ public class CardsHandEvent extends org.apache.avro.specific.SpecificRecordBase 
       return this;
     }
 
+    /**
+      * Gets the value of the 'score' field.
+      * @return The value.
+      */
+    public long getScore() {
+      return score;
+    }
+
+
+    /**
+      * Sets the value of the 'score' field.
+      * @param value The value of 'score'.
+      * @return This builder.
+      */
+    public com.aoc.day7.infrastructure.kafka.model.CardsHandEvent.Builder setScore(long value) {
+      validate(fields()[3], value);
+      this.score = value;
+      fieldSetFlags()[3] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'score' field has been set.
+      * @return True if the 'score' field has been set, false otherwise.
+      */
+    public boolean hasScore() {
+      return fieldSetFlags()[3];
+    }
+
+
+    /**
+      * Clears the value of the 'score' field.
+      * @return This builder.
+      */
+    public com.aoc.day7.infrastructure.kafka.model.CardsHandEvent.Builder clearScore() {
+      fieldSetFlags()[3] = false;
+      return this;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public CardsHandEvent build() {
@@ -392,6 +462,7 @@ public class CardsHandEvent extends org.apache.avro.specific.SpecificRecordBase 
         record.order = fieldSetFlags()[0] ? this.order : (java.lang.Long) defaultValue(fields()[0]);
         record.cards = fieldSetFlags()[1] ? this.cards : (java.lang.CharSequence) defaultValue(fields()[1]);
         record.bid = fieldSetFlags()[2] ? this.bid : (java.lang.Long) defaultValue(fields()[2]);
+        record.score = fieldSetFlags()[3] ? this.score : (java.lang.Long) defaultValue(fields()[3]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -430,6 +501,8 @@ public class CardsHandEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     out.writeLong(this.bid);
 
+    out.writeLong(this.score);
+
   }
 
   @Override public void customDecode(org.apache.avro.io.ResolvingDecoder in)
@@ -443,8 +516,10 @@ public class CardsHandEvent extends org.apache.avro.specific.SpecificRecordBase 
 
       this.bid = in.readLong();
 
+      this.score = in.readLong();
+
     } else {
-      for (int i = 0; i < 3; i++) {
+      for (int i = 0; i < 4; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
           this.order = in.readLong();
@@ -456,6 +531,10 @@ public class CardsHandEvent extends org.apache.avro.specific.SpecificRecordBase 
 
         case 2:
           this.bid = in.readLong();
+          break;
+
+        case 3:
+          this.score = in.readLong();
           break;
 
         default:
