@@ -9,33 +9,55 @@ import java.util.stream.Collectors;
 public class GetScoreByCards {
     public static long getScore(String cards) {
         String[] splitStrCards = cards.split("");
-        Long cardsType = getCardsType(splitStrCards, GetScoreByCards::getMaxWithCards);
+        Long cardsType = getCardsType(splitStrCards);
         String score = getScoreOfCards(splitStrCards, GetScoreByCards::mapOneCardToScorePart);
         return Long.parseLong(STR."\{cardsType}\{score}");
     }
 
     public static long getScoreWithJokers(String cards) {
         String[] splitStrCards = cards.split("");
-        Long cardsType = getCardsType(splitStrCards, GetScoreByCards::getMaxWithCardsAndJokers);
-        String score = getScoreOfCards(splitStrCards, GetScoreByCards::mapOneCardToScorePartWithJoker);
-        return Long.parseLong(STR."\{cardsType}\{score}");
+        Long cardsType = getCardsTypeWithJoker(splitStrCards);
+        String tailScoreStr = getScoreOfCards(splitStrCards, GetScoreByCards::mapOneCardToScorePartWithJoker);
+        return Long.parseLong(STR."\{cardsType}\{tailScoreStr}");
     }
 
-    private static long getMaxWithCards(Map<String, Long> groupingCards) {
+    private static long getMaxCardsOccurrence(Map<String, Long> groupingCards) {
         return groupingCards.values().stream().mapToLong(Long::longValue).max().orElseThrow();
     }
 
-    private static long getMaxWithCardsAndJokers(Map<String, Long> groupingCards) {
-        Long numberJoker = groupingCards.getOrDefault("J", 0L);
-        return groupingCards.values().stream().mapToLong(Long::longValue).max().orElseThrow() + numberJoker;
+    private static long getMaxCardsOccurrenceWithJokers(Map<String, Long> groupingCards) {
+        long maxWithCardsWithoutJoker = groupingCards.entrySet().stream()
+                .filter(entry -> !entry.getKey().equals("J"))
+                .mapToLong(Map.Entry::getValue).max()
+                .orElse(0L);
+        long numberJoker = groupingCards.getOrDefault("J", 0L);
+
+        return maxWithCardsWithoutJoker + numberJoker;
     }
 
-    private static Long getCardsType(String[] splitStrCards, Function<Map<String, Long>, Long> getMax) {
+    private static Long getCardsType(String[] splitStrCards) {
         var groupingCards = Arrays.stream(splitStrCards).collect(Collectors.groupingBy(str -> str, Collectors.counting()));
-        long max = getMax.apply(groupingCards);
-        if (max == 3 && groupingCards.values().size() > 2) return 4L;
-        if (max == 2 && groupingCards.values().size() == 3) return 3L;
-        if (max <= 2) return max;
+
+        return getCardsTypeValue(getMaxCardsOccurrence(groupingCards), groupingCards.size());
+    }
+
+    private static Long getCardsTypeWithJoker(String[] splitStrCards) {
+        var groupingCards = Arrays.stream(splitStrCards).collect(Collectors.groupingBy(str -> str, Collectors.counting()));
+
+        return getCardsTypeValue(
+                getMaxCardsOccurrenceWithJokers(groupingCards),
+                getNumberGroupingCardsWithoutJoker(groupingCards)
+        );
+    }
+
+    private static long getNumberGroupingCardsWithoutJoker(Map<String, Long> groupingCards) {
+        return groupingCards.keySet().stream().filter(key -> !key.equals("J")).count();
+    }
+
+    private static long getCardsTypeValue(long max, long numberGroupingCardsWithoutJoker) {
+        if (max <= 2 && numberGroupingCardsWithoutJoker > 3) return max;
+        if (max == 3 && numberGroupingCardsWithoutJoker > 2) return 4L;
+        if (max == 2) return 3L;
         return max + 2;
     }
 
@@ -63,7 +85,7 @@ public class GetScoreByCards {
             case "A" -> 14L;
             case "K" -> 13L;
             case "Q" -> 12L;
-            case "J" -> 0L;
+            case "J" -> 1L;
             case "T" -> 10L;
             default -> Long.parseLong(oneChar);
         };
