@@ -38,7 +38,7 @@ public class UpdateCardsHandRankConsumer {
         int skip = 0;
         int limit = 100;
         while (skip < total) {
-            logger.info(STR."set rank in cards hanks between \{skip} and \{limit}");
+            logger.info(STR."set rank in cards hand between \{skip} and \{limit}");
             setRankInCardsHandRepository.setRankInCardsHands(skip, limit);
             skip += limit;
         }
