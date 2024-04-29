@@ -1,0 +1,22 @@
+topic:
+  cards-hand: cardsHand
+  total-cards-hand: totalCardsHand
+
+camel:
+  cards:
+    filepath: "src/test/resources/jdd.txt"
+
+spring.kafka:
+  producer:
+    key-serializer: "org.apache.kafka.common.serialization.StringSerializer"
+    value-serializer: "io.confluent.kafka.serializers.KafkaAvroSerializer"
+    properties:
+  consumer:
+    group-id: "test-avro-new"
+    key-deserializer: "org.apache.kafka.common.serialization.StringDeserializer"
+    value-deserializer: "io.confluent.kafka.serializers.KafkaAvroDeserializer"
+    auto-offset-reset: "earliest"
+    properties:
+      specific:
+        avro:
+          reader: true
