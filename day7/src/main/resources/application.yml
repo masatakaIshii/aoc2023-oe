@@ -4,7 +4,7 @@ topic:
 
 camel:
   cards:
-    filepath: "src/main/resources/jdd.txt"
+    filepath: "src/main/resources/input.txt"
 spring.kafka:
   bootstrap-servers: "localhost:19092"
   producer:

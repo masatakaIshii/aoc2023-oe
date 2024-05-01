@@ -4,7 +4,7 @@ topic:
 
 camel:
   cards:
-    filepath: "src/test/resources/jdd.txt"
+    filepath: "src/test/resources/input.txt"
 
 spring.kafka:
   producer:
